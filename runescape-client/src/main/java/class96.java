@@ -361,80 +361,79 @@ public class class96 {
 	)
 	@Export("updateGameState")
 	static void updateGameState(int var0) {
-		if (var0 != Client.gameState) {
-			if (Client.gameState == 0) {
-				WorldMapSprite.client.method885();
+		if (var0 == Client.gameState) {
+			return;
+		}
+		if (Client.gameState == 0) {
+			WorldMapSprite.client.method885();
+		}
+
+		if (var0 == 20 || var0 == 40 || var0 == 45) {
+			Client.loginState = 0;
+			Client.field687 = 0;
+			Client.field688 = 0;
+			Client.timer.method4996(var0);
+			if (var0 != 20) {
+				GrandExchangeOffer.method99(false);
 			}
+		}
 
-			if (var0 == 20 || var0 == 40 || var0 == 45) {
-				Client.loginState = 0;
-				Client.field687 = 0;
-				Client.field688 = 0;
-				Client.timer.method4996(var0);
-				if (var0 != 20) {
-					GrandExchangeOffer.method99(false);
-				}
-			}
+		if (var0 != 20 && var0 != 40 && class269.field3563 != null) {
+			class269.field3563.close();
+			class269.field3563 = null;
+		}
 
-			if (var0 != 20 && var0 != 40 && class269.field3563 != null) {
-				class269.field3563.close();
-				class269.field3563 = null;
-			}
+		if (Client.gameState == 25) {
+			Client.field709 = 0;
+			Client.field705 = 0;
+			Client.field706 = 1;
+			Client.field707 = 0;
+			Client.field896 = 1;
+		}
 
-			if (Client.gameState == 25) {
-				Client.field709 = 0;
-				Client.field705 = 0;
-				Client.field706 = 1;
-				Client.field707 = 0;
-				Client.field896 = 1;
-			}
-
-			if (var0 != 5 && var0 != 10) {
-				if (var0 == 20) {
-					BufferedSource.method5892(WorldMapLabelSize.archive10, Client.archive8, true, Client.gameState == 11 ? 4 : 0);
-				} else if (var0 == 11) {
-					BufferedSource.method5892(WorldMapLabelSize.archive10, Client.archive8, false, 4);
-				} else if (Login.field1179) {
-					Login.titleboxSprite = null;
-					VarpDefinition.titlebuttonSprite = null;
-					Login.runesSprite = null;
-					GrandExchangeOfferWorldComparator.leftTitleSprite = null;
-					NPC.rightTitleSprite = null;
-					TileItem.logoSprite = null;
-					Login.title_muteSprite = null;
-					Login.options_buttons_0Sprite = null;
-					Decimator.options_buttons_2Sprite = null;
-					WorldMapID.worldSelectBackSprites = null;
-					SecureRandomCallable.worldSelectFlagSprites = null;
-					class225.worldSelectArrows = null;
-					FriendSystem.worldSelectStars = null;
-					class30.field264 = null;
-					Ignored.loginScreenRunesAnimation.method1720();
-					class40.method729(2);
-					if (NetCache.NetCache_socket != null) {
-						try {
-							Buffer var1 = new Buffer(4);
-							var1.writeByte(2);
-							var1.writeMedium(0);
-							NetCache.NetCache_socket.write(var1.array, 0, 4);
-						} catch (IOException var4) {
-							try {
-								NetCache.NetCache_socket.close();
-							} catch (Exception var3) {
-							}
-
-							++NetCache.NetCache_ioExceptions;
-							NetCache.NetCache_socket = null;
-						}
+		if (var0 == 5 || var0 == 10) {
+			BufferedSource.method5892(WorldMapLabelSize.archive10, Client.archive8, true, 0);
+		} else if (var0 == 20) {
+			BufferedSource.method5892(WorldMapLabelSize.archive10, Client.archive8, true, Client.gameState == 11 ? 4 : 0);
+		} else if (var0 == 11) {
+			BufferedSource.method5892(WorldMapLabelSize.archive10, Client.archive8, false, 4);
+		} else if (Login.field1179) {
+			Login.titleboxSprite = null;
+			VarpDefinition.titlebuttonSprite = null;
+			Login.runesSprite = null;
+			GrandExchangeOfferWorldComparator.leftTitleSprite = null;
+			NPC.rightTitleSprite = null;
+			GroundItem.logoSprite = null;
+			Login.title_muteSprite = null;
+			Login.options_buttons_0Sprite = null;
+			Decimator.options_buttons_2Sprite = null;
+			WorldMapID.worldSelectBackSprites = null;
+			SecureRandomCallable.worldSelectFlagSprites = null;
+			class225.worldSelectArrows = null;
+			FriendSystem.worldSelectStars = null;
+			class30.field264 = null;
+			Ignored.loginScreenRunesAnimation.method1720();
+			class40.method729(2);
+			if (NetCache.NetCache_socket != null) {
+				try {
+					Buffer var1 = new Buffer(4);
+					var1.writeByte(2);
+					var1.writeMedium(0);
+					NetCache.NetCache_socket.write(var1.array, 0, 4);
+				} catch (IOException var4) {
+					try {
+						NetCache.NetCache_socket.close();
+					} catch (Exception var3) {
 					}
 
-					Login.field1179 = false;
+					++NetCache.NetCache_ioExceptions;
+					NetCache.NetCache_socket = null;
 				}
-			} else {
-				BufferedSource.method5892(WorldMapLabelSize.archive10, Client.archive8, true, 0);
 			}
 
-			Client.gameState = var0;
+			Login.field1179 = false;
 		}
+
+		Client.gameState = var0;
 	}
 }

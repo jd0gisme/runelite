@@ -81,8 +81,8 @@
     },
     {
       "hash": "9f0c8d50fa4b79b6ff1502dbec8502179d6b9497cacbe17a13074001aed537ec",
-      "name": "jopt-simple-5.0.1.jar",
-      "path": "https://mvn.runelite.net/net/sf/jopt-simple/jopt-simple/5.0.1/jopt-simple-5.0.1.jar",
+      "name": "jopt-simple-5.0.4.jar",
+      "path": "https://mvn.runelite.net/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar",
       "size": "78826"
     },
     {
@@ -117,8 +117,8 @@
     },
     {
       "hash": "9264c6931c431e928dc64adc842584d5f57d17b2f3aff29221f2b3fdea673dad",
-      "name": "guice-4.1.0-no_aop.jar",
-      "path": "https://mvn.runelite.net/com/google/inject/guice/4.1.0/guice-4.1.0-no_aop.jar",
+      "name": "guice-4.2.2-no_aop.jar",
+      "path": "https://mvn.runelite.net/com/google/inject/guice/4.2.2/guice-4.2.2-no_aop.jar",
       "size": "428603"
     },
     {
@@ -154,7 +154,7 @@
     {
       "hash": "d4a57bbc1627da7c391308fd0fe910b83170fb66afd117236a5b111d2db1590b",
       "name": "commons-text-1.2.jar",
-      "path": "https://mvn.runelite.net/org/apache/commons/commons-text/1.2/commons-text-1.2.jar",
+      "path": "https://mvn.runelite.net/org/apache/commons/commons-text/1.7/commons-text-1.7.jar",
       "size": "136544"
     },
     {
@@ -237,14 +237,14 @@
     },
     {
       "hash": "fbc9de96a0cc193a125b4008dbc348e9ed54e5e13fc67b8ed40e645d303cc51b",
-      "name": "jna-4.5.1.jar",
-      "path": "https://mvn.runelite.net/net/java/dev/jna/jna/4.5.1/jna-4.5.1.jar",
+      "name": "jna-5.4.0.jar",
+      "path": "https://mvn.runelite.net/net/java/dev/jna/jna/5.4.0/jna-5.4.0.jar",
       "size": "1440662"
     },
     {
       "hash": "84c8667555ee8dd91fef44b451419f6f16f71f727d5fc475a10c2663eba83abb",
-      "name": "jna-platform-4.5.1.jar",
-      "path": "https://mvn.runelite.net/net/java/dev/jna/jna-platform/4.5.1/jna-platform-4.5.1.jar",
+      "name": "jna-platform-5.4.0.jar",
+      "path": "https://mvn.runelite.net/net/java/dev/jna/jna-platform/5.4.0/jna-platform-5.4.0.jar",
       "size": "2327547"
     },
     {
@@ -279,8 +279,8 @@
     },
     {
       "hash": "9d4924588d6280c7516db3a4b7298306db5b6f0d1cdf568ce738309b5660f008",
-      "name": "commons-csv-1.4.jar",
-      "path": "https://mvn.runelite.net/org/apache/commons/commons-csv/1.4/commons-csv-1.4.jar",
+      "name": "commons-csv-1.7.jar",
+      "path": "https://mvn.runelite.net/org/apache/commons/commons-csv/1.7/commons-csv-1.7.jar",
       "size": "39978"
     },
     {

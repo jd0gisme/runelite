@@ -37,7 +37,7 @@ import net.runelite.api.Client;
 import net.runelite.api.DecorativeObject;
 import net.runelite.api.GameObject;
 import net.runelite.api.GroundObject;
-import net.runelite.api.ItemLayer;
+import net.runelite.api.TileItemPile;
 import net.runelite.api.MainBufferProvider;
 import net.runelite.api.Model;
 import net.runelite.api.NPC;
@@ -990,7 +990,7 @@ public class ModelOutlineRenderer
 		}
 	}
 
-	private void drawOutline(ItemLayer itemLayer, int outlineWidth, Color innerColor, Color outerColor)
+	private void drawOutline(TileItemPile itemLayer, int outlineWidth, Color innerColor, Color outerColor)
 	{
 		LocalPoint lp = itemLayer.getLocalLocation();
 		if (lp != null)
@@ -1086,9 +1086,9 @@ public class ModelOutlineRenderer
 		{
 			drawOutline((GroundObject) tileObject, outlineWidth, innerColor, outerColor);
 		}
-		else if (tileObject instanceof ItemLayer)
+		else if (tileObject instanceof TileItemPile)
 		{
-			drawOutline((ItemLayer) tileObject, outlineWidth, innerColor, outerColor);
+			drawOutline((TileItemPile) tileObject, outlineWidth, innerColor, outerColor);
 		}
 		else if (tileObject instanceof DecorativeObject)
 		{

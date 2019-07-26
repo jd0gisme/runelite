@@ -52,6 +52,10 @@ public class AssembleMojo extends AbstractMojo
 	@Parameter(required = true)
 	private File outputDirectory;
 
+	public AssembleMojo()
+	{
+	}
+
 	private AssembleMojo(File scriptDirectory, File outputDirectory)
 	{
 		this.scriptDirectory = scriptDirectory;

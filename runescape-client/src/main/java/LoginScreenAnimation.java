@@ -29,11 +29,14 @@ public class LoginScreenAnimation {
 	@ObfuscatedName("c")
 	int[] field1044;
 	@ObfuscatedName("f")
-	int[] field1045;
+	@Export("redOrangeYellow")
+	int[] redOrangeYellow;
 	@ObfuscatedName("m")
-	int[] field1046;
+	@Export("blueGreenCyan")
+	int[] blueGreenCyan;
 	@ObfuscatedName("u")
-	int[] field1047;
+	@Export("greenPurplePink")
+	int[] greenPurplePink;
 	@ObfuscatedName("x")
 	@ObfuscatedGetter(
 		intValue = -2128952243
@@ -80,7 +83,7 @@ public class LoginScreenAnimation {
 		this.field1055 = 0;
 		this.field1056 = 0;
 		this.sprites = var1;
-		this.method1721();
+		this.init();
 	}
 
 	@ObfuscatedName("q")
@@ -88,60 +91,61 @@ public class LoginScreenAnimation {
 		signature = "(I)V",
 		garbageValue = "-1195148401"
 	)
-	void method1721() {
-		this.field1045 = new int[256];
+	@Export("init")
+	void init() {
+		this.redOrangeYellow = new int[256];
 
 		int var1;
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1045[var1] = var1 * 262144;
+			this.redOrangeYellow[var1] = var1 * 0x40000;
 		}
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1045[var1 + 64] = var1 * 1024 + 16711680;
+			this.redOrangeYellow[var1 + 64] = var1 * 0x400 + 0xff0000;
 		}
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1045[var1 + 128] = var1 * 4 + 16776960;
+			this.redOrangeYellow[var1 + 128] = var1 * 0x4 + 0xffff00;
 		}
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1045[var1 + 192] = 16777215;
+			this.redOrangeYellow[var1 + 192] = 0xffffff;
 		}
 
-		this.field1046 = new int[256];
+		this.blueGreenCyan = new int[256];
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1046[var1] = var1 * 1024;
-		}
-
-		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1046[var1 + 64] = var1 * 4 + 65280;
+			this.blueGreenCyan[var1] = var1 * 0x400;
 		}
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1046[var1 + 128] = var1 * 262144 + 65535;
+			this.blueGreenCyan[var1 + 64] = var1 * 0x4 + 0xff00;
 		}
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1046[var1 + 192] = 16777215;
-		}
-
-		this.field1047 = new int[256];
-
-		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1047[var1] = var1 * 4;
+			this.blueGreenCyan[var1 + 128] = var1 * 0x40000 + 0xffff;
 		}
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1047[var1 + 64] = var1 * 262144 + 255;
+			this.blueGreenCyan[var1 + 192] = 0xffffff;
+		}
+
+		this.greenPurplePink = new int[256];
+
+		for (var1 = 0; var1 < 64; ++var1) {
+			this.greenPurplePink[var1] = var1 * 0x4;
 		}
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1047[var1 + 128] = var1 * 1024 + 16711935;
+			this.greenPurplePink[var1 + 64] = var1 * 0x40000 + 0xff;
 		}
 
 		for (var1 = 0; var1 < 64; ++var1) {
-			this.field1047[var1 + 192] = 16777215;
+			this.greenPurplePink[var1 + 128] = var1 * 0x400 + 0xff00ff;
+		}
+
+		for (var1 = 0; var1 < 64; ++var1) {
+			this.greenPurplePink[var1 + 192] = 0xffffff;
 		}
 
 		this.field1044 = new int[256];
@@ -159,9 +163,9 @@ public class LoginScreenAnimation {
 		garbageValue = "0"
 	)
 	void method1720() {
-		this.field1045 = null;
-		this.field1046 = null;
-		this.field1047 = null;
+		this.redOrangeYellow = null;
+		this.blueGreenCyan = null;
+		this.greenPurplePink = null;
 		this.field1044 = null;
 		this.field1041 = null;
 		this.field1053 = null;
@@ -179,7 +183,7 @@ public class LoginScreenAnimation {
 	@Export("draw")
 	void draw(int var1, int var2) {
 		if (this.field1039 == null) {
-			this.method1721();
+			this.init();
 		}
 
 		if (this.field1056 == 0) {
@@ -340,7 +344,8 @@ public class LoginScreenAnimation {
 	)
 	final int method1725(int var1, int var2, int var3) {
 		int var4 = 256 - var3;
-		return (var4 * (var1 & 16711935) + var3 * (var2 & 16711935) & -16711936) + (var3 * (var2 & 65280) + var4 * (var1 & 65280) & 16711680) >> 8;
+		return (var4 * (var1 & 0xff00ff) + var3 * (var2 & 0xff00ff) & 0xff00ff00)
+			+ (var3 * (var2 & 0xff00) + var4 * (var1 & 0xff00) & 0xff0000) >> 8;
 	}
 
 	@ObfuscatedName("l")
@@ -351,12 +356,12 @@ public class LoginScreenAnimation {
 	final void method1726(int var1) {
 		int var2 = this.field1044.length;
 		if (this.field1048 * 16 > 0) {
-			this.method1727(this.field1048 * 16, this.field1046);
+			this.method1727(this.field1048 * 16, this.blueGreenCyan);
 		} else if (this.field1049 * 16 > 0) {
-			this.method1727(this.field1049 * 16, this.field1047);
+			this.method1727(this.field1049 * 16, this.greenPurplePink);
 		} else {
 			for (int var3 = 0; var3 < var2; ++var3) {
-				this.field1044[var3] = this.field1045[var3];
+				this.field1044[var3] = this.redOrangeYellow[var3];
 			}
 		}
 
@@ -373,11 +378,11 @@ public class LoginScreenAnimation {
 
 		for (int var4 = 0; var4 < var3; ++var4) {
 			if (var1 > 768) {
-				this.field1044[var4] = this.method1725(this.field1045[var4], var2[var4], 1024 - var1);
+				this.field1044[var4] = this.method1725(this.redOrangeYellow[var4], var2[var4], 1024 - var1);
 			} else if (var1 > 256) {
 				this.field1044[var4] = var2[var4];
 			} else {
-				this.field1044[var4] = this.method1725(var2[var4], this.field1045[var4], 256 - var1);
+				this.field1044[var4] = this.method1725(var2[var4], this.redOrangeYellow[var4], 256 - var1);
 			}
 		}
 
@@ -416,7 +421,7 @@ public class LoginScreenAnimation {
 					int var13 = 256 - var10;
 					var10 = this.field1044[var10];
 					int var14 = MusicPatchPcmStream.rasterProvider.pixels[var8];
-					MusicPatchPcmStream.rasterProvider.pixels[var8++] = -16777216 | (var13 * (var14 & 65280) + var12 * (var10 & 65280) & 16711680) + ((var14 & 16711935) * var13 + (var10 & 16711935) * var12 & -16711936) >> 8;
+					MusicPatchPcmStream.rasterProvider.pixels[var8++] = 0xff000000 | (var13 * (var14 & 0xff00) + var12 * (var10 & 0xff00) & 0xff0000) + ((var14 & 0xff00ff) * var13 + (var10 & 0xff00ff) * var12 & 0xff00ff00) >> 8;
 				} else {
 					++var8;
 				}

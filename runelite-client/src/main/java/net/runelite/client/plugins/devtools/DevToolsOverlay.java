@@ -46,7 +46,7 @@ import net.runelite.api.GameObject;
 import net.runelite.api.GraphicsObject;
 import net.runelite.api.TileItem;
 import net.runelite.api.GroundObject;
-import net.runelite.api.ItemLayer;
+import net.runelite.api.TileItemPile;
 import net.runelite.api.NPC;
 import net.runelite.api.NPCDefinition;
 import net.runelite.api.Node;
@@ -279,7 +279,7 @@ class DevToolsOverlay extends Overlay
 
 	private void renderGroundItems(Graphics2D graphics, Tile tile, Player player)
 	{
-		ItemLayer itemLayer = tile.getItemLayer();
+		TileItemPile itemLayer = tile.getItemLayer();
 		if (itemLayer != null)
 		{
 			if (player.getLocalLocation().distanceTo(itemLayer.getLocalLocation()) <= MAX_DISTANCE)

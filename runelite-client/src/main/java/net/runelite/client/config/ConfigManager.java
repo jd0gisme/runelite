@@ -638,32 +638,35 @@ public class ConfigManager
 
 		File[] profileDirFiles = PROFILES_DIR.listFiles();
 
-		if (profileDirFiles != null)
+		if (profileDirFiles == null)
 		{
-			for (File profileDir : profileDirFiles)
+			syncPropertiesFromFile(newestFile);
+			return;
+		}
+
+		for (File profileDir : profileDirFiles)
+		{
+			if (!profileDir.isDirectory())
 			{
-				if (!profileDir.isDirectory())
+				continue;
+			}
+
+			File[] settingsFiles = profileDir.listFiles();
+
+			if (settingsFiles == null)
+			{
+				continue;
+			}
+
+			for (File settings : settingsFiles)
+			{
+				if (!settings.getName().equals(STANDARD_SETTINGS_FILE_NAME) ||
+					settings.lastModified() < newestFile.lastModified())
 				{
 					continue;
 				}
 
-				File[] settingsFiles = profileDir.listFiles();
-
-				if (settingsFiles == null)
-				{
-					continue;
-				}
-
-				for (File settings : settingsFiles)
-				{
-					if (!settings.getName().equals(STANDARD_SETTINGS_FILE_NAME) ||
-						settings.lastModified() < newestFile.lastModified())
-					{
-						continue;
-					}
-
-					newestFile = settings;
-				}
+				newestFile = settings;
 			}
 		}
 

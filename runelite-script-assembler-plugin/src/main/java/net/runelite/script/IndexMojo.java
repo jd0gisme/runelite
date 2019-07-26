@@ -48,6 +48,10 @@ public class IndexMojo extends AbstractMojo
 	@Parameter(required = true)
 	private File indexFile;
 
+	public IndexMojo()
+	{
+	}
+
 	private IndexMojo(File archiveOverlayDirectory, File indexFile)
 	{
 		this.archiveOverlayDirectory = archiveOverlayDirectory;

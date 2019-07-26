@@ -1,5 +1,0 @@
-group = 'net.runelite.rs'
-description = 'RuneScape API'
-dependencies {
-    compile project(':runelite-api')
-}
