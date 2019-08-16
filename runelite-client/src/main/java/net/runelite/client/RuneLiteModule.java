@@ -27,7 +27,6 @@ package net.runelite.client;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.name.Names;
-import java.applet.Applet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.annotation.Nullable;
@@ -52,6 +51,7 @@ import net.runelite.client.util.DeferredEventBus;
 import net.runelite.client.util.ExecutorServiceExceptionLogger;
 import net.runelite.http.api.RuneLiteAPI;
 import okhttp3.OkHttpClient;
+import org.jdesktop.swingx.JXApplet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,14 +97,14 @@ public class RuneLiteModule extends AbstractModule
 
 	@Provides
 	@Singleton
-	Applet provideApplet(ClientLoader clientLoader)
+	JXApplet provideApplet(ClientLoader clientLoader)
 	{
 		return clientLoader.load();
 	}
 
 	@Provides
 	@Singleton
-	Client provideClient(@Nullable Applet applet)
+	Client provideClient(@Nullable JXApplet applet)
 	{
 		return applet instanceof Client ? (Client) applet : null;
 	}

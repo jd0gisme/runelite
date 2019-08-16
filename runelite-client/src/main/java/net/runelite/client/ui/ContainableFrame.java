@@ -26,11 +26,11 @@ package net.runelite.client.ui;
 
 import java.awt.Frame;
 import java.awt.Rectangle;
-import javax.swing.JFrame;
 import lombok.Setter;
 import net.runelite.client.config.ExpandResizeType;
+import org.jdesktop.swingx.JXFrame;
 
-public class ContainableFrame extends JFrame
+public class ContainableFrame extends JXFrame
 {
 	public enum Mode
 	{

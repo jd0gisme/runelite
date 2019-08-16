@@ -26,18 +26,17 @@
  */
 package net.runelite.client.rs;
 
-import java.io.InputStream;
-import java.net.URLClassLoader;
-import java.applet.Applet;
+import com.google.common.io.ByteStreams;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.net.URLClassLoader;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import com.google.common.io.ByteStreams;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.RuneLite;
+import org.jdesktop.swingx.JXApplet;
 
 @Slf4j
 @Singleton
@@ -55,44 +54,8 @@ public class ClientLoader
 		this.clientConfigLoader = clientConfigLoader;
 	}
 
-	public Applet load()
-	{
-		try
-		{
-			final RSConfig config = clientConfigLoader.fetch();
-
-			switch (updateCheckMode)
-			{
-				case AUTO:
-				default:
-					return loadRLPlus(config);
-				case VANILLA:
-					return loadVanilla(config);
-				case NONE:
-					return null;
-				case RSPS:
-					RuneLite.allowPrivateServer = true;
-					return loadRLPlus(config);
-			}
-		}
-		catch (IOException | InstantiationException | IllegalAccessException e)
-		{
-			log.error("Error loading RS!", e);
-			return null;
-		}
-		catch (ClassNotFoundException e)
-		{
-			log.error("Unable to load client - class not found. This means you"
-				+ " are not running RuneLite with Gradle as the injected client"
-				+ " is not in your classpath.");
-
-			log.error("Error loading RS!", e);
-			return null;
-		}
-	}
-
-	private static Applet loadRLPlus(final RSConfig config)
-	throws ClassNotFoundException, InstantiationException, IllegalAccessException
+	private static JXApplet loadRLPlus(final RSConfig config)
+		throws ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
 		ClassLoader rsClassLoader = new ClassLoader(ClientLoader.class.getClassLoader())
 		{
@@ -122,8 +85,8 @@ public class ClientLoader
 		return loadFromClass(config, clientClass);
 	}
 
-	private static Applet loadVanilla(final RSConfig config)
-	throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
+	private static JXApplet loadVanilla(final RSConfig config)
+		throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
 		final String codebase = config.getCodeBase();
 		final String initialJar = config.getInitialJar();
@@ -137,11 +100,47 @@ public class ClientLoader
 		return loadFromClass(config, clientClass);
 	}
 
-	private static Applet loadFromClass(final RSConfig config, final Class<?> clientClass)
-	throws IllegalAccessException, InstantiationException
+	private static JXApplet loadFromClass(final RSConfig config, final Class<?> clientClass)
+		throws IllegalAccessException, InstantiationException
 	{
-		final Applet rs = (Applet) clientClass.newInstance();
+		final JXApplet rs = (JXApplet) clientClass.newInstance();
 		rs.setStub(new RSAppletStub(config));
 		return rs;
+	}
+
+	public JXApplet load()
+	{
+		try
+		{
+			final RSConfig config = ClientConfigLoader.fetch();
+
+			switch (updateCheckMode)
+			{
+				case AUTO:
+				default:
+					return loadRLPlus(config);
+				case VANILLA:
+					return loadVanilla(config);
+				case NONE:
+					return null;
+				case RSPS:
+					RuneLite.allowPrivateServer = true;
+					return loadRLPlus(config);
+			}
+		}
+		catch (IOException | InstantiationException | IllegalAccessException e)
+		{
+			log.error("Error loading RS!", e);
+			return null;
+		}
+		catch (ClassNotFoundException e)
+		{
+			log.error("Unable to load client - class not found. This means you"
+				+ " are not running RuneLite with Gradle as the injected client"
+				+ " is not in your classpath.");
+
+			log.error("Error loading RS!", e);
+			return null;
+		}
 	}
 }

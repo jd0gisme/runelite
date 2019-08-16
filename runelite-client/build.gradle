@@ -37,6 +37,7 @@ dependencies {
     implementation group: 'org.ow2.asm', name: 'asm-tree', version: asm
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j
     implementation group: 'org.xeustechnologies', name: 'jcl-core', version: jclCore
+    implementation group: 'org.swinglabs.swingx', name: 'swingx-core', version: swingx
     implementation project(':http-api')
     implementation project(':runelite-api')
     implementation(group: 'io.sigpipe', name: 'jbsdiff', version: jbsdiff) {
@@ -52,7 +53,6 @@ dependencies {
     runtime group: 'org.jogamp.jogl', name: 'jogl-all', version: jogamp, classifier: 'natives-linux-i586'
     runtime group: 'org.jogamp.jogl', name: 'jogl-all', version: jogamp, classifier: 'natives-windows-amd64'
     runtime group: 'org.jogamp.jogl', name: 'jogl-all', version: jogamp, classifier: 'natives-windows-i586'
-    runtime group: 'org.swinglabs.swingx', name: 'swingx-core', version: swingx
     runtime project(':injected-client')
     runtime project(':runescape-api')
 

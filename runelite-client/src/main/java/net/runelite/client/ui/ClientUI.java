@@ -25,7 +25,6 @@
 package net.runelite.client.ui;
 
 import com.google.common.base.Strings;
-import java.applet.Applet;
 import java.awt.Canvas;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -95,6 +94,8 @@ import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.OSType;
 import net.runelite.client.util.OSXUtil;
 import net.runelite.client.util.SwingUtil;
+import org.jdesktop.swingx.JXApplet;
+import org.jdesktop.swingx.JXFrame;
 import org.pushingpixels.substance.internal.SubstanceSynapse;
 import org.pushingpixels.substance.internal.utils.SubstanceCoreUtilities;
 import org.pushingpixels.substance.internal.utils.SubstanceTitlePaneUtilities;
@@ -106,6 +107,7 @@ import org.pushingpixels.substance.internal.utils.SubstanceTitlePaneUtilities;
 @Singleton
 public class ClientUI
 {
+	public static final BufferedImage ICON = ImageUtil.getResourceStreamFromClass(ClientUI.class, "/runeliteplus.png");
 	private static final String CONFIG_GROUP = "runelite";
 	private static final String PLUS_CONFIG_GROUP = "runeliteplus";
 	private static final String CONFIG_CLIENT_BOUNDS = "clientBounds";
@@ -115,26 +117,23 @@ public class ClientUI
 	private static final int CLIENT_WELL_HIDDEN_MARGIN = 160;
 	private static final int CLIENT_WELL_HIDDEN_MARGIN_TOP = 10;
 	public static boolean allowInput = false;
-	public static final BufferedImage ICON = ImageUtil.getResourceStreamFromClass(ClientUI.class, "/runeliteplus.png");
-
-	@Getter
-	private TrayIcon trayIcon;
-
+	public static ContainableFrame frame;
+	public static PluginPanel pluginPanel;
+	public static ClientPluginToolbar pluginToolbar;
 	private final RuneLiteConfig config;
 	private final KeyManager keyManager;
 	private final MouseManager mouseManager;
-	private final Applet client;
+	private final JXApplet client;
 	private final ConfigManager configManager;
 	private final Provider<ClientThread> clientThreadProvider;
 	private final CardLayout cardLayout = new CardLayout();
 	private final Rectangle sidebarButtonPosition = new Rectangle();
+	@Getter
+	private TrayIcon trayIcon;
 	private boolean withTitleBar;
 	private BufferedImage sidebarOpenIcon;
 	private BufferedImage sidebarClosedIcon;
-	public static ContainableFrame frame;
 	private JPanel navContainer;
-	public static PluginPanel pluginPanel;
-	public static ClientPluginToolbar pluginToolbar;
 	private ClientTitleToolbar titleToolbar;
 	private JButton currentButton;
 	private NavigationButton currentNavButton;
@@ -152,7 +151,7 @@ public class ClientUI
 		RuneLiteConfig config,
 		KeyManager keyManager,
 		MouseManager mouseManager,
-		@Nullable Applet client,
+		@Nullable JXApplet client,
 		ConfigManager configManager,
 		Provider<ClientThread> clientThreadProvider,
 		EventBus eventbus)
@@ -312,6 +311,7 @@ public class ClientUI
 
 	/**
 	 * Initialize UI.
+	 *
 	 * @param runelite runelite instance that will be shut down on exit
 	 * @throws Exception exception that can occur during creation of the UI
 	 */

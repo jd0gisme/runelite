@@ -24,7 +24,6 @@
  */
 package net.runelite.client.ui;
 
-import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.annotation.Nullable;
@@ -35,10 +34,11 @@ import net.runelite.api.Client;
 import net.runelite.api.Constants;
 import net.runelite.client.RuneLite;
 import net.runelite.client.util.StringFileUtils;
+import org.jdesktop.swingx.JXApplet;
 
 final class ClientPanel extends JPanel
 {
-	public ClientPanel(@Nullable Applet client)
+	public ClientPanel(@Nullable JXApplet client)
 	{
 		setSize(Constants.GAME_FIXED_SIZE);
 		setMinimumSize(Constants.GAME_FIXED_SIZE);

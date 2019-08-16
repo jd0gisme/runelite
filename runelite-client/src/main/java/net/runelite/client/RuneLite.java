@@ -36,6 +36,8 @@ import java.lang.management.RuntimeMXBean;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.Locale;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import javax.annotation.Nullable;
 import javax.inject.Provider;
 import javax.inject.Singleton;
@@ -77,7 +79,7 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 @Slf4j
-public class RuneLite
+public class RuneLite extends Application
 {
 	public static final File RUNELITE_DIR = new File(System.getProperty("user.home"), ".runelite");
 	public static final File PROFILES_DIR = new File(RUNELITE_DIR, "profiles");
@@ -170,123 +172,6 @@ public class RuneLite
 
 	@Inject
 	private Scheduler scheduler;
-
-	public static void main(String[] args) throws Exception
-	{
-		Locale.setDefault(Locale.ENGLISH);
-
-		final OptionParser parser = new OptionParser();
-		parser.accepts("developer-mode", "Enable developer tools");
-		parser.accepts("debug", "Show extra debugging output");
-		parser.accepts("no-splash", "Do not show the splash screen");
-		final ArgumentAcceptingOptionSpec<String> proxyInfo = parser
-			.accepts("proxy")
-			.withRequiredArg().ofType(String.class);
-
-		final ArgumentAcceptingOptionSpec<ClientUpdateCheckMode> updateMode = parser
-			.accepts("rs", "Select client type")
-			.withRequiredArg()
-			.ofType(ClientUpdateCheckMode.class)
-			.defaultsTo(ClientUpdateCheckMode.AUTO)
-			.withValuesConvertedBy(new EnumConverter<ClientUpdateCheckMode>(ClientUpdateCheckMode.class)
-			{
-				@Override
-				public ClientUpdateCheckMode convert(String v)
-				{
-					return super.convert(v.toUpperCase());
-				}
-			});
-
-		parser.accepts("help", "Show this text").forHelp();
-		OptionSet options = parser.parse(args);
-
-		if (options.has("proxy"))
-		{
-			String[] proxy = options.valueOf(proxyInfo).split(":");
-
-			if (proxy.length >= 2)
-			{
-				System.setProperty("socksProxyHost", proxy[0]);
-				System.setProperty("socksProxyPort", proxy[1]);
-			}
-
-			if (proxy.length >= 4)
-			{
-				System.setProperty("java.net.socks.username", proxy[2]);
-				System.setProperty("java.net.socks.password", proxy[3]);
-
-				final String user = proxy[2];
-				final char[] pass = proxy[3].toCharArray();
-
-				Authenticator.setDefault(new Authenticator()
-				{
-					private PasswordAuthentication auth = new PasswordAuthentication(user, pass);
-
-					protected PasswordAuthentication getPasswordAuthentication()
-					{
-						return auth;
-					}
-				});
-			}
-		}
-
-		if (options.has("help"))
-		{
-			parser.printHelpOn(System.out);
-			System.exit(0);
-		}
-
-		final boolean developerMode = options.has("developer-mode");
-
-		if (developerMode)
-		{
-			boolean assertions = false;
-			assert assertions = true;
-			if (!assertions)
-			{
-				java.util.logging.Logger.getAnonymousLogger().warning("Developers should enable assertions; Add `-ea` to your JVM arguments`");
-			}
-		}
-
-		if (!options.has("no-splash"))
-		{
-			RuneLiteSplashScreen.init();
-		}
-
-		RuneLiteSplashScreen.stage(0, "Initializing client");
-
-		PROFILES_DIR.mkdirs();
-
-		if (options.has("debug"))
-		{
-			final Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-			logger.setLevel(Level.DEBUG);
-		}
-
-		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) ->
-		{
-			log.error("Uncaught exception:", throwable);
-			if (throwable instanceof AbstractMethodError)
-			{
-				log.error("Classes are out of date; Build with Gradle again.");
-			}
-		});
-
-
-		RuneLiteSplashScreen.stage(.2, "Starting RuneLitePlus injector");
-
-		final long start = System.currentTimeMillis();
-
-		injector = Guice.createInjector(new RuneLiteModule(
-			options.valueOf(updateMode),
-			true));
-
-		injector.getInstance(RuneLite.class).start();
-		final long end = System.currentTimeMillis();
-		final RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
-		final long uptime = rb.getUptime();
-		log.info("Client initialization took {}ms. Uptime: {}ms", end - start, uptime);
-	}
 
 	public void start() throws Exception
 	{
@@ -381,5 +266,123 @@ public class RuneLite
 	public static void setInjector(Injector injector)
 	{
 		RuneLite.injector = injector;
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception
+	{
+		Locale.setDefault(Locale.ENGLISH);
+
+		final OptionParser parser = new OptionParser();
+		parser.accepts("developer-mode", "Enable developer tools");
+		parser.accepts("debug", "Show extra debugging output");
+		parser.accepts("no-splash", "Do not show the splash screen");
+		final ArgumentAcceptingOptionSpec<String> proxyInfo = parser
+			.accepts("proxy")
+			.withRequiredArg().ofType(String.class);
+
+		final ArgumentAcceptingOptionSpec<ClientUpdateCheckMode> updateMode = parser
+			.accepts("rs", "Select client type")
+			.withRequiredArg()
+			.ofType(ClientUpdateCheckMode.class)
+			.defaultsTo(ClientUpdateCheckMode.AUTO)
+			.withValuesConvertedBy(new EnumConverter<ClientUpdateCheckMode>(ClientUpdateCheckMode.class)
+			{
+				@Override
+				public ClientUpdateCheckMode convert(String v)
+				{
+					return super.convert(v.toUpperCase());
+				}
+			});
+
+		parser.accepts("help", "Show this text").forHelp();
+		OptionSet options = parser.parse(new String[0]);
+
+		if (options.has("proxy"))
+		{
+			String[] proxy = options.valueOf(proxyInfo).split(":");
+
+			if (proxy.length >= 2)
+			{
+				System.setProperty("socksProxyHost", proxy[0]);
+				System.setProperty("socksProxyPort", proxy[1]);
+			}
+
+			if (proxy.length >= 4)
+			{
+				System.setProperty("java.net.socks.username", proxy[2]);
+				System.setProperty("java.net.socks.password", proxy[3]);
+
+				final String user = proxy[2];
+				final char[] pass = proxy[3].toCharArray();
+
+				Authenticator.setDefault(new Authenticator()
+				{
+					private PasswordAuthentication auth = new PasswordAuthentication(user, pass);
+
+					protected PasswordAuthentication getPasswordAuthentication()
+					{
+						return auth;
+					}
+				});
+			}
+		}
+
+		if (options.has("help"))
+		{
+			parser.printHelpOn(System.out);
+			System.exit(0);
+		}
+
+		final boolean developerMode = options.has("developer-mode");
+
+		if (developerMode)
+		{
+			boolean assertions = false;
+			assert assertions = true;
+			if (!assertions)
+			{
+				java.util.logging.Logger.getAnonymousLogger().warning("Developers should enable assertions; Add `-ea` to your JVM arguments`");
+			}
+		}
+
+		if (!options.has("no-splash"))
+		{
+			RuneLiteSplashScreen.init();
+		}
+
+		RuneLiteSplashScreen.stage(0, "Initializing client");
+
+		PROFILES_DIR.mkdirs();
+
+		if (options.has("debug"))
+		{
+			final Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+			logger.setLevel(Level.DEBUG);
+		}
+
+		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) ->
+		{
+			log.error("Uncaught exception:", throwable);
+			if (throwable instanceof AbstractMethodError)
+			{
+				log.error("Classes are out of date; Build with Gradle again.");
+			}
+		});
+
+
+		RuneLiteSplashScreen.stage(.2, "Starting RuneLitePlus injector");
+
+		final long start = System.currentTimeMillis();
+
+		injector = Guice.createInjector(new RuneLiteModule(
+			options.valueOf(updateMode),
+			true));
+
+		injector.getInstance(RuneLite.class).start();
+		final long end = System.currentTimeMillis();
+		final RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
+		final long uptime = rb.getUptime();
+		log.info("Client initialization took {}ms. Uptime: {}ms", end - start, uptime);
 	}
 }
