@@ -52,6 +52,7 @@ dependencies {
     runtime group: 'org.jogamp.jogl', name: 'jogl-all', version: jogamp, classifier: 'natives-linux-i586'
     runtime group: 'org.jogamp.jogl', name: 'jogl-all', version: jogamp, classifier: 'natives-windows-amd64'
     runtime group: 'org.jogamp.jogl', name: 'jogl-all', version: jogamp, classifier: 'natives-windows-i586'
+    runtime group: 'org.swinglabs.swingx', name: 'swingx-core', version: swingx
     runtime project(':injected-client')
     runtime project(':runescape-api')
 

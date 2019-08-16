@@ -49,6 +49,7 @@ import static net.runelite.injector.InjectUtil.getFieldType;
 import net.runelite.injector.raw.ClearColorBuffer;
 import net.runelite.injector.raw.DrawAfterWidgets;
 import net.runelite.injector.raw.DrawMenu;
+import net.runelite.injector.raw.ExtendsApplet;
 import net.runelite.injector.raw.HidePlayerAttacks;
 import net.runelite.injector.raw.Occluder;
 import net.runelite.injector.raw.RasterizerHook;
@@ -319,6 +320,7 @@ public class Inject
 		new DrawMenu(this).inject();
 		new Occluder(this).inject();
 		new HidePlayerAttacks(this).inject();
+		new ExtendsApplet(this).inject();
 	}
 
 	private java.lang.Class injectInterface(ClassFile cf, ClassFile other)

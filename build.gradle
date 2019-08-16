@@ -74,6 +74,7 @@ ext {
     springboot = '2.1.7.RELEASE'
     sql2o = '1.6.0'
     substance = '8.0.02'
+    swingx = '1.6.5-1'
     trident = '1.5.00'
 }
 

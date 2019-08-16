@@ -24,9 +24,10 @@
  */
 package net.runelite.mixins;
 
+import java.awt.event.FocusEvent;
 import net.runelite.api.events.FocusChanged;
 import net.runelite.api.hooks.DrawCallbacks;
-import java.awt.event.FocusEvent;
+import net.runelite.api.mixins.Copy;
 import net.runelite.api.mixins.FieldHook;
 import net.runelite.api.mixins.Inject;
 import net.runelite.api.mixins.MethodHook;
@@ -41,6 +42,9 @@ public abstract class RSGameShellMixin implements RSGameShell
 {
 	@Shadow("client")
 	private static RSClient client;
+
+	@Inject
+	private int canvasAdded = 0;
 
 	@Inject
 	private Thread thread;
@@ -96,6 +100,21 @@ public abstract class RSGameShellMixin implements RSGameShell
 		{
 			setReplaceCanvasNextFrame(false);
 			setResizeCanvasNextFrame(true);
+		}
+	}
+
+	@Copy("addCanvas")
+	final synchronized void rs$addCanvas()
+	{
+	}
+
+	@Replace("addCanvas")
+	final synchronized void rl$addCanvas()
+	{
+		if (canvasAdded == 0)
+		{
+			rs$addCanvas();
+			canvasAdded++;
 		}
 	}
 
